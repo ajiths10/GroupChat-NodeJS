@@ -2,15 +2,17 @@ const express = require('express')
 const fs = require('fs')
 
 const router = express.Router();
+const arr = [];
 
 router.use("/compose",(req, res, next)=>{
-    console.log('Compose');
-    res.send('<form action="/c" method="POST" ><input type="text" placeholder="Enter the message" name="meassage"><button type="Submit">Submit</button></form>')
+    res.send('<form action="/" onSubmit= "document.getElementById(`username`).value=localStorage.getItem(`username`)" method="POST" ><input type="hidden" name="username" id="username"> <input type="text" placeholder="Enter the message" name="meassage"><button type="Submit">Submit</button></form>')
 })
 
-router.use('/c',(req, res, next)=>{
-    console.log(req.body)
-    fs.writeFileSync("message.txt", req.body.meassage)
+router.use('/',(req, res, next)=>{
+    arr.push(`{${req.body.username} : ${req.body.meassage}}`)
+    // fs.writeFileSync("messagw.txt" , arr)
+    console.log(arr);
+    res.redirect("/compose");
 })
 
 module.exports = router;
